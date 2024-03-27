@@ -25,7 +25,7 @@ npm i express mongoose cors dotenv
 
 4. ## Add ES Modules
 
-- In your `package.json` add `"type": "module"` to ensures that you have access to the functionality provided by these modules throughout your application.
+- In your `package.json` add `"type": "module"` to ensure that you have access to the functionality provided by these modules throughout your application.
 - ES Modules (ECMAScript Modules) are a way to organize code into separate files or modules. This method allows you to import/export functionality between these modules.
 
 5. ## Set up Server (Node.js & Express)
@@ -92,3 +92,5 @@ const connectDB = async () => {
 
 export default connectDB;
 ```
+
+- Ensure to include your `.env` file in the `.gitignore` to safeguard sensitive information like API keys, passwords, or ports from being exposed.
