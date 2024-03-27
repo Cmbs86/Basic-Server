@@ -1,3 +1,7 @@
+<img src="./mern.png" title="MERN Step by Step">
+
+---
+
 1. ## Setup Node.js and npm
 
 - Install ***Node*** and ***npm***
