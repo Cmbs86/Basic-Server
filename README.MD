@@ -94,3 +94,25 @@ export default connectDB;
 ```
 
 - Ensure to include your `.env` file in the `.gitignore` to safeguard sensitive information like API keys, passwords, or ports from being exposed.
+
+
+9. ## Folder Structure
+```
+backend/
+|-- config/
+|   |-- connectDB.js
+|-- controllers/
+|   |-- itemController.js
+|-- middleware/
+|   |-- asyncHandler.js
+|   |-- errorHandler.js
+|-- models/
+|   |-- ItemModel.js
+|-- routes/
+|   |-- itemRouter.js
+|-- .env
+|-- .gitignore
+|-- package.json
+|-- seeder.js
+|-- server.js
+```
