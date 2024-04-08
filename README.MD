@@ -9,14 +9,14 @@
 
 2. ## Initialize the Project
 
-- First create a folder called `server` or `backend` and navigate to it.
+-   First create a folder called `server` or `backend` and navigate to it.
 
 ```bash
 mkdir backend
 cd backend
 ```
 
-- Open your terminal and run `npm init -y` to create a `package.json` file.
+-   Open your terminal and run `npm init -y` to create a `package.json` file.
 
 3. ## Install Dependecies
 
@@ -37,10 +37,17 @@ npm i <dependencies> -D
 
 5. ## Set up Server (Node.js & Express)
 
--   Create a folder `backend` or `server`and a file `server.js` and set up a basic Express server
+-   Create a file `server.js` and set up a basic Express server
+-   Also add a `.env` file to manage environment variables
 
 ```bash
-touch server.js
+touch server.js .env
+```
+
+### .env
+
+```bash
+PORT=5000
 ```
 
 ### server.js
@@ -107,7 +114,7 @@ backend/
 ```bash
 cd backend
 mkdir config controllers middleware models routes
-touch .env .gitignore seeder.js server.js
+touch .gitignore seeder.js
 ```
 
 9. ## Connect to MongoDB
@@ -116,6 +123,14 @@ touch .env .gitignore seeder.js server.js
 -   Save your `URI`in the `.env` file
 -   Create a connection
 -   Call this connection in your `server.js`
+
+### .env
+
+```bash
+MONGODB_URI=your_mongodb_uri
+```
+
+### config/connectDB.js
 
 ```javascript
 import mongoose from "mongoose";
@@ -132,7 +147,7 @@ const connectDB = async () => {
         // Connect to the MongoDB
         const conn = await mongoose.connect(MONGODB_URI);
         // Log the connection host if the connection is successful
-        console.log(`<<MongoDB Connected: ${conn.connection.host}`);
+        console.log(`<< MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
         // Log the error message if the connection is failed
         console.error(":: Database Not Connection");
@@ -143,4 +158,3 @@ export default connectDB;
 ```
 
 -   Ensure to include your `.env` file in the `.gitignore` to safeguard sensitive information like API keys, passwords, or ports from being exposed.
-
