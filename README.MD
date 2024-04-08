@@ -109,7 +109,7 @@ backend/
 |-- server.js
 ```
 
--For that we can create a folder structure like this.
+- For that we can create a folder structure like this.
 
 ```bash
 cd backend
@@ -158,3 +158,44 @@ export default connectDB;
 ```
 
 -   Ensure to include your `.env` file in the `.gitignore` to safeguard sensitive information like API keys, passwords, or ports from being exposed.
+
+### .gitignore
+
+```bash
+node_modules
+.env
+```
+
+-   Call the `connectDB` function in your `server.js`
+
+### server.js
+
+```javascript
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+// Managing the .env file
+dotenv.config();
+
+// Import the connectDB function
+import connectDB from "./config/connectDB.js";
+
+// Connect to the MongoDB
+await connectDB(); 
+
+const app = express();
+const { PORT } = process.env;
+
+// Middleware that allows browsers to accept data from this server
+app.use(cors());
+// Middlewares that accepts urlencoded from data request
+app.use(express.urlencoded({ extended: true }));
+// Middleware that accepts json format data request
+app.use(express.json());
+
+// Listen to the PORT
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+});
+```
