@@ -23,8 +23,25 @@ cd backend
 -   Install necessary dependencies using the following commands
 
 ```javascript
-npm i express mongoose cors dotenv
+npm i express mongoose cors
 ```
+
+-   Optional Dependencies
+
+-   **_dotenv_** - To manage environment variables
+-   **_nodemon_** - To automatically restart the server when changes are made
+-   **_morgan_** - To log HTTP requests
+-   **_colors_** - To add colors to the console
+-   **_express-validator_** - To validate incoming request data
+-   **_bcryptjs_** - To hash passwords
+-   **_jsonwebtoken_** - To generate JWTs
+-   **_cookie-parser_** - To parse cookies
+-   **_zod_** - To validate data schemas
+
+### Way to install devDependencies
+
+- devDependencies are dependencies that are only required during development, such as testing libraries or transpilers. They are not included in the production build. To install devDependencies, use the `-D` flag.
+- Example: `npm i nodemon -D`
 
 ```javascript
 npm i <dependencies> -D
@@ -109,7 +126,7 @@ backend/
 |-- server.js
 ```
 
-- For that we can create a folder structure like this.
+-   For that we can create a folder structure like this.
 
 ```bash
 cd backend
@@ -182,7 +199,7 @@ dotenv.config();
 import connectDB from "./config/connectDB.js";
 
 // Connect to the MongoDB
-await connectDB(); 
+await connectDB();
 
 const app = express();
 const { PORT } = process.env;
