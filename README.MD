@@ -40,8 +40,8 @@ npm i express mongoose cors
 
 ### Way to install devDependencies
 
-- devDependencies are dependencies that are only required during development, such as testing libraries or transpilers. They are not included in the production build. To install devDependencies, use the `-D` flag.
-- Example: `npm i nodemon -D`
+-   devDependencies are dependencies that are only required during development, such as testing libraries or transpilers. They are not included in the production build. To install devDependencies, use the `-D` flag.
+-   Example: `npm i nodemon -D`
 
 ```javascript
 npm i <dependencies> -D
@@ -49,12 +49,24 @@ npm i <dependencies> -D
 
 4. ## Add ES Modules and Scripts
 
--   In your `package.json` add:
-    - `"type": "module"` to ensure that you have access to the functionality provided by these modules throughout your application.
-    - `"scripts": {"dev": "nodemon server.js"}`,
 -   ES Modules (ECMAScript Modules) are a way to organize code into separate files or modules. This method allows you to import/export functionality between these modules.
 
-- 
+-   In your `package.json` add:
+
+    -   `"type": "module"` to ensure that you have access to the functionality provided by these modules throughout your application.
+    -  In the `scripts` section, add the following scripts:
+
+        -   `"dev": "nodemon server.js"`,
+        -   `"start": "node --watch --inspect --env-file=.env server.js"`
+        -   `"seeder": "node --env-file=.env seeder.js"`,
+
+### Here's a brief explanation of each:
+
+-   `dev & start`: Starts the server in development mode with auto-restart, debugging, and environment variable loading.
+-   `seeder`: Executes the seeder.js file, potentially loading environment variables from a .env file.
+
+These scripts simplify common tasks during development and deployment of your Node.js application. You can run them using `npm` or `yarn` or `pnpm` commands like `npm run dev`, `npm run seeder` or `npm start`.
+
 
 5. ## Set up Server (Node.js & Express)
 
@@ -156,6 +168,7 @@ MONGODB_URI=your_mongodb_uri
 ```javascript
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import colors from "colors";
 
 dotenv.config();
 
@@ -168,7 +181,7 @@ const connectDB = async () => {
         // Connect to the MongoDB
         const conn = await mongoose.connect(MONGODB_URI);
         // Log the connection host if the connection is successful
-        console.log(`<< MongoDB Connected: ${conn.connection.host}`);
+        console.log(`<< MongoDB Connected: ${conn.connection.host} >>`.bgGreen.white);
     } catch (error) {
         // Log the error message if the connection is failed
         console.error(":: Database Not Connection");
@@ -195,6 +208,7 @@ node_modules
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import colors from "colors";
 
 // Managing the .env file
 dotenv.config();
@@ -217,6 +231,6 @@ app.use(express.json());
 
 // Listen to the PORT
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+    console.log(`Server is running at http://localhost:${PORT}`.bgBlue.white);
 });
 ```
