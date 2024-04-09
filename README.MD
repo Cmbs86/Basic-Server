@@ -47,10 +47,14 @@ npm i express mongoose cors
 npm i <dependencies> -D
 ```
 
-4. ## Add ES Modules
+4. ## Add ES Modules and Scripts
 
--   In your `package.json` add `"type": "module"` to ensure that you have access to the functionality provided by these modules throughout your application.
+-   In your `package.json` add:
+    - `"type": "module"` to ensure that you have access to the functionality provided by these modules throughout your application.
+    - `"scripts": {"dev": "nodemon server.js"}`,
 -   ES Modules (ECMAScript Modules) are a way to organize code into separate files or modules. This method allows you to import/export functionality between these modules.
+
+- 
 
 5. ## Set up Server (Node.js & Express)
 
