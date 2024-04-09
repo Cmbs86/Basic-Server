@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import colors from "colors";
 
+// // Managing the .env file
 dotenv.config();
 
 // Get the MONGODB_URI from the .env file
