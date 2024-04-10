@@ -14,6 +14,8 @@ await connectDB();
 
 // Importing the Router
 import itemRouter from "./routes/itemRouter.js";
+// Importing the Error Handler Middleware
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 const { PORT } = process.env;
@@ -28,9 +30,12 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // ROUTERS
-app.use("/api/items", itemRouter)
+app.use("/api/items", itemRouter);
+
+// Error Handler Middleware
+app.use(errorHandler);
 
 // Listen
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`.bgBlue.white);
+  console.log(`Server is running at http://localhost:${PORT}`.bgBlue.white);
 });
