@@ -1,84 +1,83 @@
+import asyncHandler from "../config/asyncHandler.js";
 import ItemModel from "../models/ItemModel.js";
 
-// CREATE the items
+/* 
+@desc    Create a new item
+@route   POST /api/items
+@access  Public
+*/
+const createItem = asyncHandler(async (req, res) => {
+  const item = await ItemModel.create(req.body);
+  res.status(201).json(item);
+});
 
-const createItem = async (req, res) => {
-    try {
-        const item = await ItemModel.create(req.body);
-        res.status(201).json(item);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+/* 
+@desc    Get all items
+@route   GET /api/items
+@access  Public
+*/
+const getAllItems = asyncHandler(async (req, res) => {
+  const items = await ItemModel.find();
+  res.status(200).json(items);
+});
 
-// READ the items
 
-const getAllItems = async (req, res) => {
-    try {
-        const items = await ItemModel.find();
-        res.status(200).json(items);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+/* 
+@desc    Get an item by ID
+@route   GET /api/items/:id
+@access  Public
+*/
+const getItemById = asyncHandler(async (req, res) => {
+  const item = await ItemModel.findById(req.params.id);
+  res.status(200).json(item);
+});
 
-// READ each item
 
-const getItemById = async (req, res) => {
-    try {
-        const item = await ItemModel.findById(req.params.id);
-        res.status(200).json(item);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+/* 
+@desc    Update an item
+@route   PATCH /api/items/:id
+@access  Public
+*/
+const updateItem = asyncHandler(async (req, res) => {
+  const itemUpdated = await ItemModel.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
 
-// UPDATE the items
+    // What is {new: true}?
+    // By default, findByIdAndUpdate() returns the original document.
+    // To return the document after update you have to pass an option: new: true.
+  );
+  res.status(200).json(itemUpdated);
+});
 
-const updateItem = async (req, res) => {
-    try {
-        const itemUpdated = await ItemModel.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
 
-            // What is {new: true}?
-            // By default, findByIdAndUpdate() returns the original document.
-            // To return the document after update you have to pass an option: new: true.
-        );
-        res.status(200).json(itemUpdated);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+/* 
+@desc    Delete an item
+@route   DELETE /api/items/:id
+@access  Public
+*/
+const deleteItem = asyncHandler(async (req, res) => {
+  const itemDeleted = await ItemModel.findByIdAndDelete(req.params.id);
+  res.status(200).json(itemDeleted);
+});
 
-// DELETE one item
 
-const deleteItem = async (req, res) => {
-    try {
-        const itemDeleted = await ItemModel.findByIdAndDelete(req.params.id);
-        res.status(200).json(itemDeleted);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-
-// DELETE all items
-
-const deleteAllItems = async (req, res) => {
-    try {
-        await ItemModel.deleteMany();
-        res.status(200).json({ message: "All items are deleted." });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
+/* 
+@desc    Delete all items
+@route   DELETE /api/items
+@access  Public
+*/
+const deleteAllItems = asyncHandler(async (req, res) => {
+  await ItemModel.deleteMany();
+  res.status(200).json({ message: "All items are deleted." });
+});
 
 export {
-    createItem,
-    getAllItems,
-    getItemById,
-    updateItem,
-    deleteItem,
-    deleteAllItems
+  createItem,
+  getAllItems,
+  getItemById,
+  updateItem,
+  deleteItem,
+  deleteAllItems,
 };
