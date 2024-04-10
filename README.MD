@@ -89,6 +89,8 @@ PORT=5000
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import colors from "colors";
+import morgan from "morgan";
 
 // Managing the .env file
 dotenv.config();
@@ -111,6 +113,8 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 // Middleware that accepts json format data request
 app.use(express.json());
+// Middleware that logs the request to the console
+app.use(morgan("dev"));
 ```
 
 8. ## Folder Structure
@@ -228,9 +232,263 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 // Middleware that accepts json format data request
 app.use(express.json());
+// Middleware that logs the request to the console
+app.use(morgan("dev"));
 
 // Listen to the PORT
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`.bgBlue.white);
 });
+```
+10. ## Routes
+
+-  Navigate to the `routes` folder and create a file called `itemRouter.js`
+
+```bash
+cd routes
+touch itemRouter.js
+```
+
+-  Add the following code to the `itemRouter.js` file
+
+### routes/itemRouter.js
+
+```javascript
+import { Router } from "express";
+
+// Import the CRUD functions from the controller
+import {
+    createItem,
+    getAllItems,
+    getItemById,
+    updateItem,
+    deleteItem,
+    deleteAllItems
+} from "../controllers/itemController.js";
+
+// Create a new router
+const itemsRouter = Router();
+
+// CRUD -----------
+
+// CREATE the items
+itemsRouter.post("/", createItem);
+// READ the items
+itemsRouter.get("/", getAllItems);
+// READ each movie
+itemsRouter.get("/:id", getItemById);
+// UPDATE the items
+itemsRouter.patch("/:id", updateItem);
+// DELETE the items
+itemsRouter.delete("/:id", deleteItem)
+// DELETE all items
+itemsRouter.delete("/", deleteAllItems)
+
+// Export the router
+export default itemsRouter;
+
+```
+
+- Then import the `itemRouter` in the `server.js` file. 
+
+### server.js
+
+```javascript
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import colors from "colors";
+import morgan from "morgan";
+
+// Managing the .env file
+dotenv.config();
+
+// Import the connectDB function
+import connectDB from "./config/connectDB.js";
+// Connect to the MongoDB
+await connectDB();
+
+// Importing the Router
+import itemRouter from "./routes/itemRouter.js";
+
+// Create an express app
+const app = express();
+// Get the PORT from the .env file
+const { PORT } = process.env;
+
+// Middleware that allows browsers to accept data from this server
+app.use(cors());
+// Middlewares that accepts urlencoded from data request
+app.use(express.urlencoded({ extended: true }));
+// Middleware that accepts json format data request
+app.use(express.json());
+// Middleware that logs the request to the console
+app.use(morgan("dev"));
+
+// ROUTERS
+app.use("/api/items", itemRouter)
+
+// Listen to the PORT and log the message to the console
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`.bgBlue.white);
+});
+```
+
+11. ## Models
+
+-  Navigate to the `models` folder and create a file called `ItemModel.js`
+
+```bash
+cd models
+touch ItemModel.js
+```
+
+-  Add the following code to the `ItemModel.js` file
+
+### models/ItemModel.js
+
+```javascript
+import { Schema, model } from "mongoose";
+
+// Create Schema
+const itemSchema = new Schema(
+    {
+        // Define the fields and their types in the schema. Some options are: type, required, default, unique, etc.
+        string: {
+            type: String,
+            required: true
+        },
+        number: {
+            type: Number,
+        },
+        boolean: {
+            type: Boolean,
+        },
+        // Date example 
+        date: {
+            type: Date,
+            default: Date.now
+        },
+        // Array of strings example 
+        arrays: {
+            type: [String],
+        }
+    },
+    {
+        // Add timestamps to the schema (createdAt, updatedAt)
+        timestamps: true
+    }
+);
+
+// Create Model
+const ItemModel = model("items", itemSchema);
+
+// Export the model
+export default ItemModel;
+```
+
+12. ## Controllers
+
+-  Navigate to the `controllers` folder and create a file called `itemController.js`
+
+```bash
+cd controllers
+touch itemController.js
+```
+
+-  Add the following code to the `itemController.js` file
+
+### controllers/itemController.js
+
+```javascript
+// Import the ItemModel
+import ItemModel from "../models/ItemModel.js";
+
+// CREATE the items
+const createItem = async (req, res) => {
+    try {
+        // Create a new item using the ItemModel and the request body
+        const item = await ItemModel.create(req.body);
+        // Send the item as a response
+        res.status(201).json(item);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// READ the items
+const getAllItems = async (req, res) => {
+    try {
+        // Find all the items in the database using the ItemModel 
+        const items = await ItemModel.find();
+        // Send the items as a response
+        res.status(200).json(items);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// READ each item
+const getItemById = async (req, res) => {
+    try {
+        // Find an item by id using the ItemModel 
+        const item = await ItemModel.findById(req.params.id);
+        // Send the item as a response
+        res.status(200).json(item);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// UPDATE the items
+
+const updateItem = async (req, res) => {
+    try {
+        // Find an item by id and update it using the ItemModel 
+        const itemUpdated = await ItemModel.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+
+            // What is {new: true}?
+            // By default, findByIdAndUpdate() returns the original document.
+            // To return the document after update you have to pass an option: new: true.
+        );
+        res.status(200).json(itemUpdated);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// DELETE one item
+const deleteItem = async (req, res) => {
+    try {
+        // Find an item by id and delete it using the ItemModel 
+        const itemDeleted = await ItemModel.findByIdAndDelete(req.params.id);
+        res.status(200).json(itemDeleted);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+// DELETE all items (optional)
+const deleteAllItems = async (req, res) => {
+    try {
+        // Delete all items using the ItemModel 
+        await ItemModel.deleteMany();
+        res.status(200).json({ message: "All items are deleted." });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+// Export the CRUD functions
+export {
+    createItem,
+    getAllItems,
+    getItemById,
+    updateItem,
+    deleteItem,
+    deleteAllItems
+};
 ```
