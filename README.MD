@@ -164,7 +164,9 @@ touch .gitignore seeder.js
 ### .env
 
 ```bash
+PORT=5000
 MONGODB_URI=your_mongodb_uri
+MONGO_LOCAL=your_local_mongodb_uri
 ```
 
 ### config/connectDB.js
