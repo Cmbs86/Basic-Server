@@ -13,9 +13,11 @@ import connectDB from "./config/connectDB.js";
 await connectDB();
 
 // Importing the Router
-import itemRouter from "./routes/itemRouter.js";
+import Router from "./routes/Router.js";
+
 // Importing the Error Handler Middleware
 import { errorHandler } from "./middlewares/errorHandler.js";
+
 
 const app = express();
 const { PORT } = process.env;
@@ -30,7 +32,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // ROUTERS
-app.use("/api/items", itemRouter);
+app.use("/api/models", Router)
+
 
 // Error Handler Middleware
 app.use(errorHandler);

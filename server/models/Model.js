@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 // Create Schema
 
-const itemSchema = new Schema(
+const modelSchema = new Schema(
     {
         string: {
             type: String,
@@ -29,6 +29,6 @@ const itemSchema = new Schema(
 
 // Create Model
 
-const ItemModel = model("items", itemSchema);
+const Model = model("models", modelSchema);
 
-export default ItemModel;
+export default Model;
