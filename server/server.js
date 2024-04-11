@@ -13,7 +13,7 @@ import connectDB from "./config/connectDB.js";
 await connectDB();
 
 // Importing the Router
-import itemRouter from "./routes/itemRouter.js";
+import Router from "./routes/Router.js";
 
 const app = express();
 const { PORT } = process.env;
@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // ROUTERS
-app.use("/api/items", itemRouter)
+app.use("/api", Router)
 
 // Listen
 app.listen(PORT, () => {
