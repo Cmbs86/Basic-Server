@@ -13,13 +13,11 @@ import connectDB from "./config/connectDB.js";
 await connectDB();
 
 // Importing the Router
-<<<<<<< HEAD
 import Router from "./routes/Router.js";
-=======
-import itemRouter from "./routes/itemRouter.js";
+
 // Importing the Error Handler Middleware
 import { errorHandler } from "./middlewares/errorHandler.js";
->>>>>>> 83afa77c220adf5b2ac2a5f8518468a14babe522
+
 
 const app = express();
 const { PORT } = process.env;
@@ -34,14 +32,11 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // ROUTERS
-<<<<<<< HEAD
 app.use("/api", Router)
-=======
-app.use("/api/items", itemRouter);
+
 
 // Error Handler Middleware
 app.use(errorHandler);
->>>>>>> 83afa77c220adf5b2ac2a5f8518468a14babe522
 
 // Listen
 app.listen(PORT, () => {
