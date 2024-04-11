@@ -1,84 +1,83 @@
+import asyncHandler from "../config/asyncHandler.js";
 import Model from "../models/Model.js";
 
-// CREATE
+/* 
+@desc    Create a new model
+@route   POST /api/models
+@access  Public
+*/
+const create = asyncHandler(async (req, res) => {
+  const model = await Model.create(req.body);
+  res.status(201).json(model);
+});
 
-const create = async (req, res) => {
-    try {
-        const model = await Model.create(req.body);
-        res.status(201).json(model);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+/* 
+@desc    Get all models
+@route   GET /api/models
+@access  Public
+*/
+const getAll = asyncHandler(async (req, res) => {
+  const models = await Model.find();
+  res.status(200).json(models);
+});
 
-// READ ALl
 
-const getAll = async (req, res) => {
-    try {
-        const model = await Model.find();
-        res.status(200).json(model);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+/* 
+@desc    Get an model by ID
+@route   GET /api/models/:id
+@access  Public
+*/
+const getById = asyncHandler(async (req, res) => {
+  const model = await Model.findById(req.params.id);
+  res.status(200).json(model);
+});
 
-// READ each one
 
-const getById = async (req, res) => {
-    try {
-        const model = await Model.findById(req.params.id);
-        res.status(200).json(model);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+/* 
+@desc    Update an model
+@route   PATCH /api/models/:id
+@access  Public
+*/
+const update = asyncHandler(async (req, res) => {
+  const modelUpdated = await Model.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
 
-// UPDATE
+    // What is {new: true}?
+    // By default, findByIdAndUpdate() returns the original document.
+    // To return the document after update you have to pass an option: new: true.
+  );
+  res.status(200).json(modelUpdated);
+});
 
-const update = async (req, res) => {
-    try {
-        const modelUpdated = await Model.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
 
-            // What is {new: true}?
-            // By default, findByIdAndUpdate() returns the original document.
-            // To return the document after update you have to pass an option: new: true.
-        );
-        res.status(200).json(modelUpdated);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+/* 
+@desc    Delete an model
+@route   DELETE /api/models/:id
+@access  Public
+*/
+const deleteOne = asyncHandler(async (req, res) => {
+  const modelDeleted = await Model.findByIdAndDelete(req.params.id);
+  res.status(200).json(modelDeleted);
+});
 
-// DELETE one 
 
-const deleteOne = async (req, res) => {
-    try {
-        const modelDeleted = await Model.findByIdAndDelete(req.params.id);
-        res.status(200).json(modelDeleted);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-
-// DELETE all 
-
-const deleteAll = async (req, res) => {
-    try {
-        await Model.deleteMany();
-        res.status(200).json({ message: "All <items> are deleted." });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
+/* 
+@desc    Delete all models
+@route   DELETE /api/models
+@access  Public
+*/
+const deleteAll = asyncHandler(async (req, res) => {
+  await Model.deleteMany();
+  res.status(200).json({ message: "All <models> are deleted." });
+});
 
 export {
-    create,
-    getAll,
-    getById,
-    update,
-    deleteOne,
-    deleteAll
+  create,
+  getAll,
+  getById,
+  update,
+  deleteOne,
+  deleteAll,
 };

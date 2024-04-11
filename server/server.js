@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // ROUTERS
-app.use("/api", Router)
+app.use("/api/models", Router)
 
 
 // Error Handler Middleware

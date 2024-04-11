@@ -9,21 +9,21 @@ import {
     deleteAll
 } from "../controllers/Controller.js";
 
-const sRouter = Router();
+const router = Router();
 
 // CRUD -----------
 
 // CREATE the s
-Router.post("/", create);
+router.post("/", create);
 // READ the s
-Router.get("/", getAll);
+router.get("/", getAll);
 // READ each movie
-Router.get("/:id", getById);
+router.get("/:id", getById);
 // UPDATE the s
-Router.patch("/:id", update);
+router.patch("/:id", update);
 // DELETE the s
-Router.delete("/:id", deleteOne)
+router.delete("/:id", deleteOne)
 // DELETE all s
-Router.delete("/", deleteAll)
+router.delete("/", deleteAll)
 
-export default Router;
+export default router;
