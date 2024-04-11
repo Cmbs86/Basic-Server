@@ -33,7 +33,7 @@ npm i express mongoose cors
 -   **_morgan_** - To log HTTP requests
 -   **_colors_** - To add colors to the console
 -   **_express-validator_** - To validate incoming request data
--   **_bcryptjs_** - To hash passwords
+-   **_bcrypt_** - To hash passwords
 -   **_jsonwebtoken_** - To generate JWTs
 -   **_cookie-parser_** - To parse cookies
 -   **_zod_** - To validate data schemas
